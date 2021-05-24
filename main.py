@@ -3,8 +3,6 @@ from flask import Flask, request, jsonify, render_template, url_for
 import numpy as np
 import tensorflow as tf
 import pandas as pd
-import json
-import math
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
@@ -117,5 +115,5 @@ def home():
     return jsonify(to_json)
 
 
-if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+#if __name__ == '__main__':
+#    app.run(port=3000, debug=True)
