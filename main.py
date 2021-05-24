@@ -91,9 +91,9 @@ def add_year(year):
         last_year = last_year + 1
         year.append(last_year)
     return year
-#@app.route('/')
-#def man():
-#   return render_template('index.html')
+@app.route('/')
+def man():
+   return render_template('index.html')
 
 @app.route('/predict_api', methods=['POST'])
 def home():
