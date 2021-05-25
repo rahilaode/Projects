@@ -5,7 +5,7 @@ import pandas as pd
 import keras
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error
+
 
 
 app = Flask(__name__)
@@ -89,12 +89,14 @@ def add_year(year):
         last_year = last_year + 1
         year.append(last_year)
     return year
+
+
 @app.route('/')
-def man():
+def home():
    return render_template('index.html')
 
 @app.route('/predict_api', methods=['POST'])
-def home():
+def predict_():
     #commodity = str(request.form['commodity'])
     #country = str(request.form['country'])
     json_ = request.json
@@ -111,8 +113,8 @@ def home():
     full_quantity = real_quantity + predict_quantity
     
     to_json = {"Year":full_year, "Quantity":full_quantity}
-
-    return jsonify(to_json)
+    data = jsonify(to_json)
+    return data
 
 
 if __name__ == '__main__':
