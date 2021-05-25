@@ -2,21 +2,30 @@ from flask import Flask, request, jsonify, render_template, url_for
 
 import numpy as np
 import pandas as pd
-import keras
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
-
-
 
 app = Flask(__name__)
 scaler = MinMaxScaler(feature_range=(0,1))
 model = load_model('my_model.h5')
 df = pd.read_csv('commodity_trade_statistics_data.csv')
 
-def quantity(commodity, country, flow='Import'):
-    data_com = df[df.commodity == commodity]
-    data_nation = data_com[data_com.country_or_area == country]
-    data_flow = data_nation[data_nation.flow == flow]
+
+@app.route('/')
+def home():
+   return render_template('index.html')
+
+@app.route('/predict_api', methods=['POST'])
+def predict_():
+    #commodity = str(request.form['commodity'])
+    #country = str(request.form['country'])
+    json_ = request.json
+    nation = str(json_["country"])
+    comodity = str(json_["commodity"])
+    
+    data_com = df[df.commodity == comodity]
+    data_nation = data_com[data_com.country_or_area == nation]
+    data_flow = data_nation[data_nation.flow == 'Import']
     sort_year = data_flow.sort_values('year')   #sort year
     data_reindex = sort_year.reset_index(drop=True) #reindex
   
@@ -34,13 +43,11 @@ def quantity(commodity, country, flow='Import'):
     for index, rows in data_reindex.iterrows():
         my_list = rows.year
         year.append(my_list)
+    
     df1 = scaler.fit_transform(np.array(quantity).reshape(-1,1))
-  
-    return df1, real_quantity, year
-
-
-def predict(dataset): 
-    x_input = dataset[-3:].reshape(1,-1) #pick the last 3  number in dataset as Input 
+    
+    
+    x_input = df1[-3:].reshape(1,-1) #pick the last 3  number in dataset as Input 
     x_input.shape 
 
     temp_input = list(x_input)
@@ -76,10 +83,8 @@ def predict(dataset):
             #print(len(temp_input))
             lst_output.extend(yhat.tolist())
             i=i+1
-    return lst_output
-
-
-def add_year(year):
+    
+    
     last_year = year[-1:]
     last_year = [str(integer) for integer in last_year] #convert to string
     last_year = "".join(last_year) #convert to string
@@ -88,31 +93,20 @@ def add_year(year):
     for i in range(1,4):
         last_year = last_year + 1
         year.append(last_year)
-    return year
+        
+    
+    
+    
 
 
-@app.route('/')
-def home():
-   return render_template('index.html')
-
-@app.route('/predict_api', methods=['POST'])
-def predict_():
-    #commodity = str(request.form['commodity'])
-    #country = str(request.form['country'])
-    json_ = request.json
-    nation = str(json_["country"])
-    comodity = str(json_["commodity"])
-    quantity_, real_quantity, year_ = quantity(comodity, nation)
-    full_year = add_year(year_)
-
-    predict_quantity = predict(quantity_)
+    predict_quantity = lst_output
     predict_quantity = scaler.inverse_transform(predict_quantity)
     predict_quantity = predict_quantity.tolist()
     predict_quantity = [ix[0] for ix in predict_quantity]
     predict_quantity = [int(predict_quantity) for predict_quantity in predict_quantity]
     full_quantity = real_quantity + predict_quantity
     
-    to_json = {"Year":full_year, "Quantity":full_quantity}
+    to_json = {"Year":year, "Quantity":full_quantity}
     data = jsonify(to_json)
     return data
 
