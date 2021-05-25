@@ -115,5 +115,5 @@ def home():
     return jsonify(to_json)
 
 
-#if __name__ == '__main__':
-#    app.run(port=3000, debug=True)
+if __name__ == '__main__':
+    app.run(port=8080, debug=True)
