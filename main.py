@@ -7,8 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
 scaler = MinMaxScaler(feature_range=(0,1))
-model = load_model('my_model.h5')
-df = pd.read_csv('commodity_trade_statistics_data.csv')
+
 
 
 @app.route('/')
@@ -17,6 +16,8 @@ def home():
 
 @app.route('/predict_api', methods=['POST'])
 def predict_():
+    model = load_model('my_model.h5')
+    df = pd.read_csv('commodity_trade_statistics_data.csv')
     #commodity = str(request.form['commodity'])
     #country = str(request.form['country'])
     json_ = request.json
