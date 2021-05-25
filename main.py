@@ -2,13 +2,13 @@ from flask import Flask, request, jsonify, render_template, url_for
 
 import numpy as np
 import pandas as pd
-from keras.models import load_model
+from tensorflow.keras.models import load_model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
-scaler = MinMaxScaler(feature_range=(0,1))
-
-
 
 @app.route('/')
 def home():
@@ -16,6 +16,7 @@ def home():
 
 @app.route('/predict_api', methods=['POST'])
 def predict_():
+    scaler = MinMaxScaler(feature_range=(0,1))
     model = load_model('my_model.h5')
     df = pd.read_csv('commodity_trade_statistics_data.csv')
     #commodity = str(request.form['commodity'])
@@ -95,11 +96,6 @@ def predict_():
         last_year = last_year + 1
         year.append(last_year)
         
-    
-    
-    
-
-
     predict_quantity = lst_output
     predict_quantity = scaler.inverse_transform(predict_quantity)
     predict_quantity = predict_quantity.tolist()
