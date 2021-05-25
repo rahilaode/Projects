@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template, url_for
 
 import numpy as np
-import tensorflow as tf
 import pandas as pd
-from tensorflow.keras.models import load_model
+import keras
+from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 

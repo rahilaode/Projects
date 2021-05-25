@@ -1,6 +1,6 @@
 certifi==2019.11.28
 Flask==1.1.1
 numpy>=1.9.2
-tensorflow==2.4.1
 scikit-learn==0.20.0
 pandas>=0.19
+Keras<=2.4.3
