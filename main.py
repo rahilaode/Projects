@@ -3,9 +3,6 @@ from flask import Flask, request, jsonify, render_template, url_for
 import numpy as np
 import pandas as pd
 from tensorflow.keras.models import load_model
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
