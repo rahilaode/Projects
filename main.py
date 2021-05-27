@@ -8,9 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
 
 scaler = MinMaxScaler(feature_range=(0,1))
-model = load_model('my_model.h5')
 df = pd.read_csv('commodity_trade_statistics_data.csv')
-    
 @app.route('/')
 def home():
    return render_template('index.html')
@@ -20,10 +18,14 @@ def predict_():
     
     #commodity = str(request.form['commodity'])
     #country = str(request.form['country'])
+    #nation = str('Denmark')
+    #comodity = str('Potatoes, fresh or chilled except seed')
+    
     json_ = request.json
     nation = str(json_["country"])
     comodity = str(json_["commodity"])
     
+    model = load_model('my_model.h5')
     data_com = df[df.commodity == comodity]
     data_nation = data_com[data_com.country_or_area == nation]
     data_flow = data_nation[data_nation.flow == 'Import']
@@ -42,7 +44,7 @@ def predict_():
 
     year = []
     for index, rows in data_reindex.iterrows():
-        my_list = rows.year
+        my_list = str(rows.year)
         year.append(my_list)
     
     df1 = scaler.fit_transform(np.array(quantity).reshape(-1,1))
@@ -87,13 +89,14 @@ def predict_():
     
     
     last_year = year[-1:]
-    last_year = [str(integer) for integer in last_year] #convert to string
+    #last_year = [str(integer) for integer in last_year] #convert to string
     last_year = "".join(last_year) #convert to string
     last_year = int(last_year) #convert to integer
-
+    
+    last_years = []
     for i in range(1,4):
         last_year = last_year + 1
-        year.append(last_year)
+        last_years.append(str(last_year))
         
     predict_quantity = lst_output
     predict_quantity = scaler.inverse_transform(predict_quantity)
@@ -102,9 +105,8 @@ def predict_():
     predict_quantity = [int(predict_quantity) for predict_quantity in predict_quantity]
     full_quantity = real_quantity + predict_quantity
     
-    to_json = {"Year":year, "Quantity":full_quantity}
-    data = jsonify(to_json)
-    return data
+    to_json = {"Year_hist":year, "Quantity_hist":real_quantity, "Year_pred":last_years, "Quantity_pred":predict_quantity}
+    return jsonify(to_json)
 
 
 if __name__ == '__main__':
