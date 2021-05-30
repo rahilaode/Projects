@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, url_for
 
 import numpy as np
 import pandas as pd
+import os
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 
@@ -14,7 +15,7 @@ def home():
    return render_template('index.html')
 
 @app.route('/predict_api', methods=['POST'])
-def predict_():
+def predict_api():
     
     #commodity = str(request.form['commodity'])
     #country = str(request.form['country'])
@@ -25,13 +26,16 @@ def predict_():
     nation = str(json_["country"])
     comodity = str(json_["commodity"])
     
-    model = load_model('my_model.h5')
+    model = load_model('Models/{}/{}/my_model.h5'.format(comodity, nation))
     data_com = df[df.commodity == comodity]
     data_nation = data_com[data_com.country_or_area == nation]
     data_flow = data_nation[data_nation.flow == 'Import']
     sort_year = data_flow.sort_values('year')   #sort year
     data_reindex = sort_year.reset_index(drop=True) #reindex
-  
+    
+    quantity_name = data_reindex['quantity_name']
+    quantity_name = str(quantity_name[0])
+    
     quantity = []
     for index, rows in data_reindex.iterrows():
         my_list = [rows.quantity]
@@ -105,7 +109,7 @@ def predict_():
     predict_quantity = [int(predict_quantity) for predict_quantity in predict_quantity]
     full_quantity = real_quantity + predict_quantity
     
-    to_json = {"Year_hist":year, "Quantity_hist":real_quantity, "Year_pred":last_years, "Quantity_pred":predict_quantity}
+    to_json = {"Year_hist":year, "Quantity_hist":real_quantity, "Year_pred":last_years, "Quantity_pred":predict_quantity, "Quantity_name":quantity_name}
     return jsonify(to_json)
 
 
