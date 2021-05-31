@@ -1,5 +1,8 @@
-Flask==1.1.1
-numpy>=1.9.2
-scikit-learn==0.20.0
-pandas>=0.19
-Keras<=2.4.3
+Flask
+numpy
+scikit-learn
+pandas
+Keras
+tensorflow
+gunicorn
+os
