@@ -17,4 +17,5 @@ Global Commodity Trade Statistics in three decades of global trade flows https:/
 Size archive : 120.26 MB, Size csv in archive : 1.14 GB
 
 # Result 
-## Baseline Model (Example : Model for 
+## Baseline Model (Example : Model for Potatoes, fresh or chilled except seed import demands in Denmark)
+![image](https://user-images.githubusercontent.com/80165152/120359541-5c5c3b80-c33a-11eb-9c39-75365e29a4ed.png)
