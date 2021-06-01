@@ -1,4 +1,4 @@
-# Export Commodity Demands Prediction
+# Bangkit Final Project - Export Commodity Demands Prediction
 
 1. Download the dataset (kaggle.com/unitednations/global-commodity-trade-statistics)
-
+2. Load the data
