@@ -12,5 +12,6 @@
 
 # Datasets 
 Global Commodity Trade Statistics in three decades of global trade flows https://www.kaggle.com/unitednations/global-commodity-trade-statistics
-Size archive : 120.26 MB
-Size csv in archive : 1.14 GB
+Size archive : 120.26 MB, Size csv in archive : 1.14 GB
+
+
