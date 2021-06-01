@@ -9,9 +9,12 @@
 7. Pick the last three years as input for the model to predict the next three years
 8. Deploying on google cloud
 
+# Installation 
+Use pip to install prerequisites on requirements.txt, if you on google colab you can skip the process.
 
 # Datasets 
 Global Commodity Trade Statistics in three decades of global trade flows https://www.kaggle.com/unitednations/global-commodity-trade-statistics
 Size archive : 120.26 MB, Size csv in archive : 1.14 GB
 
-
+# Result 
+## Baseline Model (Example : Model for 
