@@ -28,7 +28,7 @@ Size archive : 120.26 MB, Size csv in archive : 1.14 GB
 ### Loss training
 ![image](https://user-images.githubusercontent.com/80165152/120360828-c75a4200-c33b-11eb-93d3-d87f5597f362.png)
 
-### Val training
+### Loss validation
 ![image](https://user-images.githubusercontent.com/80165152/120360879-d2ad6d80-c33b-11eb-8b4d-4b3a648176eb.png)
 
 ### Model Summary
